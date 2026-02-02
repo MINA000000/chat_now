@@ -1,14 +1,18 @@
+import 'package:chat_now/auth/view_model/auth_states.dart';
+import 'package:chat_now/utils/ui_utils.dart';
+import 'package:chat_now/validators/app_validators.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
-import 'package:chat_now/auth/login_screen.dart';
+import 'package:chat_now/auth/view/screens/login_screen.dart';
 import 'package:chat_now/firebase_functions.dart';
 import 'package:chat_now/home_screen.dart';
-import 'package:chat_now/models/user_model.dart';
-import 'package:chat_now/providers/tasks_provider.dart';
-import 'package:chat_now/widgets/default_elevated_button.dart';
-import 'package:chat_now/widgets/default_text_form.dart';
+import 'package:chat_now/auth/models/user_model.dart';
+import 'package:chat_now/auth/view_model/auth_view_model.dart';
+import 'package:chat_now/auth/view/widgets/default_elevated_button.dart';
+import 'package:chat_now/auth/view/widgets/default_text_form.dart';
 
 class RegisterScreen extends StatelessWidget {
   static const String route = '/Register-screen';
@@ -54,6 +58,8 @@ class RegisterScreen extends StatelessWidget {
                 validator: (email) {
                   if (email == null || email.trim().length < 5) {
                     return 'Email should contain at least 5 characters';
+                  } else if (!AppValidators.isEmail(email)) {
+                    return 'Invalid email';
                   }
                   return null;
                 },
@@ -87,32 +93,32 @@ class RegisterScreen extends StatelessWidget {
                 isPassword: true,
               ),
               SizedBox(height: 32),
-              DefaultElevatedButton(
-                onPress: () {
-                  if (formKey.currentState!.validate()) {
-                    register()
-                        .then((userModel) {
-                          if (!context.mounted) return;
-                          Provider.of<UserProvider>(
-                            context,
-                            listen: false,
-                          ).currentUser = userModel;
-                          Navigator.of(
-                            context,
-                          ).pushReplacementNamed(HomeScreen.route);
-                        })
-                        .catchError((error) {
-                          if (error is FirebaseAuthException) {
-                            Fluttertoast.showToast(
-                              msg: error.code,
-                              backgroundColor: Colors.red,
-                              textColor: Colors.white,
-                            );
-                          }
-                        });
+              BlocListener<AuthViewModel, AuthState>(
+                listener: (context, state) {
+                  if (state is RegisterLoading) {
+                    UiUtils.showLoading(context);
+                  } else if (state is RegisterError) {
+                    UiUtils.hideLoading(context);
+                    UiUtils.showMessage(state.message, Colors.red);
+                  } else if (state is RegisterSuccess) {
+                    UiUtils.hideLoading(context);
+                    Navigator.of(
+                      context,
+                    ).pushReplacementNamed(HomeScreen.route);
                   }
                 },
-                text: 'Register',
+                child: DefaultElevatedButton(
+                  onPress: () {
+                    if (formKey.currentState!.validate()) {
+                      context.read<AuthViewModel>().register(
+                        email: emailController.text,
+                        password: passwordController.text,
+                        name: nameController.text,
+                      );
+                    }
+                  },
+                  text: 'Register',
+                ),
               ),
               SizedBox(height: 16),
               TextButton(
@@ -130,14 +136,6 @@ class RegisterScreen extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-
-  Future<UserModel> register() {
-    return FirebaseFunctions.register(
-      email: emailController.text,
-      name: nameController.text,
-      password: passwordController.text,
     );
   }
 }
