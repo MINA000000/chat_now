@@ -1,10 +1,10 @@
-import 'package:chat_now/app_theme.dart';
+import 'package:chat_now/shared/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class DefaultElevatedButton extends StatelessWidget {
-  DefaultElevatedButton({super.key, required this.onPress, required this.text});
-  VoidCallback onPress;
-  String text;
+  const DefaultElevatedButton({super.key, required this.onPress, required this.text});
+  final VoidCallback onPress;
+  final String text;
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(

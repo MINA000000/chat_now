@@ -7,7 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:chat_now/auth/view/screens/login_screen.dart';
-import 'package:chat_now/firebase_functions.dart';
+import 'package:chat_now/shared/firebase_functions.dart';
 import 'package:chat_now/home_screen.dart';
 import 'package:chat_now/auth/models/user_model.dart';
 import 'package:chat_now/auth/view_model/auth_view_model.dart';
