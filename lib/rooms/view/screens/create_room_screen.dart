@@ -22,6 +22,7 @@ class CreateRoomScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => viewModel,
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: Text('Chat Now', style: Theme.of(context).textTheme.bodyLarge),
         ),

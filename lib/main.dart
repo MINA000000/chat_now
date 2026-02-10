@@ -1,5 +1,6 @@
 import 'package:chat_now/auth/view/screens/login_screen.dart';
 import 'package:chat_now/auth/view/screens/register_screen.dart';
+import 'package:chat_now/chat/view/screens/chat_screen.dart';
 import 'package:chat_now/firebase_options.dart';
 import 'package:chat_now/home_screen.dart';
 import 'package:chat_now/auth/view_model/auth_view_model.dart';
@@ -27,7 +28,8 @@ class ChatNow extends StatelessWidget {
         HomeScreen.route: (_) => HomeScreen(),
         LoginScreen.route: (_) => LoginScreen(),
         RegisterScreen.route: (_) => RegisterScreen(),
-        CreateRoomScreen.route: (_)=>CreateRoomScreen()
+        CreateRoomScreen.route: (_)=>CreateRoomScreen(),
+        ChatScreen.route: (_)=>ChatScreen(),
       },
       initialRoute: HomeScreen.route,
       themeMode: ThemeMode.light,

@@ -1,3 +1,4 @@
+import 'package:chat_now/chat/view/screens/chat_screen.dart';
 import 'package:chat_now/rooms/view/screens/create_room_screen.dart';
 import 'package:chat_now/rooms/view/widgets/room_item.dart';
 import 'package:chat_now/rooms/view_model/rooms_states.dart';
@@ -57,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       if (state is GetRoomsLoading) {
                         return LoadingIndicator();
                       } else if (state is GetRoomsError) {
-                        return ErrorIndicator(message: state.message,);
+                        return ErrorIndicator(message: state.message);
                       } else if (state is GetRoomsSuccess) {
                         return GridView.builder(
                           gridDelegate:
@@ -66,7 +67,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                 mainAxisSpacing: 8,
                                 crossAxisSpacing: 8,
                               ),
-                          itemBuilder: (_, index) => RoomItem(roomModel: viewModel.rooms[index],),
+                          itemBuilder: (_, index) => InkWell(
+                            onTap: () => Navigator.of(context).pushNamed(ChatScreen.route),
+                            child: RoomItem(roomModel: viewModel.rooms[index]),
+                          ),
                           itemCount: viewModel.rooms.length,
                         );
                       }
