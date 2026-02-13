@@ -5,7 +5,7 @@ class AppTheme {
   static const black = Color(0xff141922);
   // static const blackNavi = Color(0xff141922);
   static const whiteColor = Color(0xffFFFFFF);
-  static const greyColor = Color(0xff7f7f7f);
+  static const greyColor = Color.fromARGB(255, 77, 76, 76);
 
   static ThemeData lightTheme = ThemeData(
     primaryColor: primary,
@@ -30,7 +30,7 @@ class AppTheme {
       ),
       bodySmall: TextStyle(
         fontSize: 12,
-        fontWeight: FontWeight.w400,
+        fontWeight: FontWeight.w600,
         color: greyColor,
       ),
       headlineLarge: TextStyle(
