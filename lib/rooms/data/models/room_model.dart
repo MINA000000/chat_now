@@ -11,6 +11,7 @@ class RoomModel {
   });
   RoomModel.fromJson(Map<String, dynamic> json)
     : this(
+        id: json['id'],
         categoryId: json['categoryId'],
         description: json['description'],
         name: json['name'],

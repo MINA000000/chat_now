@@ -68,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 crossAxisSpacing: 8,
                               ),
                           itemBuilder: (_, index) => InkWell(
-                            onTap: () => Navigator.of(context).pushNamed(ChatScreen.route),
+                            onTap: () => Navigator.of(context).pushNamed(ChatScreen.route,arguments: viewModel.rooms[index]),
                             child: RoomItem(roomModel: viewModel.rooms[index]),
                           ),
                           itemCount: viewModel.rooms.length,

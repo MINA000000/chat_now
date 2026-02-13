@@ -1,9 +1,10 @@
+import 'package:chat_now/chat/data/models/message_model.dart';
 import 'package:chat_now/shared/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class ReceivedMessage extends StatelessWidget {
   const ReceivedMessage({super.key, required this.message});
-  final String message;
+  final MessageModel message;
   @override
   Widget build(BuildContext context) {
     return Align(
@@ -18,7 +19,7 @@ class ReceivedMessage extends StatelessWidget {
             bottomEnd: Radius.circular(8),
           ),
         ),
-        child: Text(message, style: TextStyle(color: Colors.white)),
+        child: Text(message.content, style: TextStyle(color: Colors.white)),
       ),
     );
   }

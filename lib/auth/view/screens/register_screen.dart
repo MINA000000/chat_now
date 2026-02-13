@@ -1,15 +1,10 @@
 import 'package:chat_now/auth/view_model/auth_states.dart';
 import 'package:chat_now/utils/ui_utils.dart';
 import 'package:chat_now/validators/app_validators.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:provider/provider.dart';
 import 'package:chat_now/auth/view/screens/login_screen.dart';
-import 'package:chat_now/shared/firebase_functions.dart';
 import 'package:chat_now/home_screen.dart';
-import 'package:chat_now/auth/models/user_model.dart';
 import 'package:chat_now/auth/view_model/auth_view_model.dart';
 import 'package:chat_now/auth/view/widgets/default_elevated_button.dart';
 import 'package:chat_now/auth/view/widgets/default_text_form.dart';

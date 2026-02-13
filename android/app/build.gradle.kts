@@ -10,7 +10,7 @@ plugins {
 
 android {
     namespace = "com.example.chat_now"
-    compileSdk = flutter.compileSdkVersion
+    compileSdk = 35
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
