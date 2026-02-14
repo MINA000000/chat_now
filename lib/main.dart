@@ -6,6 +6,7 @@ import 'package:chat_now/home_screen.dart';
 import 'package:chat_now/auth/view_model/auth_view_model.dart';
 import 'package:chat_now/rooms/view/screens/create_room_screen.dart';
 import 'package:chat_now/shared/app_theme.dart';
+import 'package:chat_now/splash_screen.dart';
 // import 'package:chat_now/shared/my_bloc_observer.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -32,8 +33,9 @@ class ChatNow extends StatelessWidget {
         RegisterScreen.route: (_) => RegisterScreen(),
         CreateRoomScreen.route: (_) => CreateRoomScreen(),
         ChatScreen.route: (_) => ChatScreen(),
+        SplashScreen.route:(_)=>SplashScreen()
       },
-      initialRoute: LoginScreen.route,
+      initialRoute: SplashScreen.route,
       themeMode: ThemeMode.light,
       theme: AppTheme.lightTheme,
     );

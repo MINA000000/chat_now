@@ -54,13 +54,26 @@ class FirebaseFunctions {
   }) async {
     UserCredential userCredential = await FirebaseAuth.instance
         .signInWithEmailAndPassword(email: email, password: password);
+    return getUser(userCredential.user!.uid);
+  }
+
+  static Future<void> logout()async{
+    return FirebaseAuth.instance.signOut();
+  }
+
+  static Future<UserModel> getUser(String userId)async{
     CollectionReference<UserModel> usersCollection = getCollectionUsers();
     DocumentSnapshot<UserModel> documentSnapshot = await usersCollection
-        .doc(userCredential.user!.uid)
+        .doc(userId)
         .get();
     return documentSnapshot.data()!;
   }
 
+  static Future<UserModel?> getCurrentUser()async{
+    if(FirebaseAuth.instance.currentUser == null) return null;
+    final currentUser = getUser(FirebaseAuth.instance.currentUser!.uid);
+    return currentUser;
+  }
   static Future<List<RoomModel>> getRooms() async {
     final roomsCollection = getCollectionRooms();
     QuerySnapshot<RoomModel> querySnapshot = await roomsCollection.get();

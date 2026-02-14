@@ -40,6 +40,7 @@ class AppTheme {
       ),
     ),
     appBarTheme: AppBarTheme(
+      titleTextStyle: TextStyle(fontWeight: FontWeight.bold,fontSize: 24),
       backgroundColor: Colors.transparent,
       foregroundColor: whiteColor,
       centerTitle: true,

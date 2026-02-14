@@ -1,3 +1,6 @@
+import 'package:chat_now/auth/view/screens/login_screen.dart';
+import 'package:chat_now/auth/view_model/auth_states.dart';
+import 'package:chat_now/auth/view_model/auth_view_model.dart';
 import 'package:chat_now/chat/view/screens/chat_screen.dart';
 import 'package:chat_now/rooms/view/screens/create_room_screen.dart';
 import 'package:chat_now/rooms/view/widgets/room_item.dart';
@@ -38,19 +41,43 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         child: Scaffold(
+          extendBodyBehindAppBar: true,
+          appBar: AppBar(
+            title: Text('Chat Now'),
+            actions: [
+              BlocConsumer<AuthViewModel, AuthState>(
+                listener: (_, state) {
+                  if(state is LogoutSuccess){
+                    Navigator.of(context).pushReplacementNamed(LoginScreen.route);
+                  }
+                },
+                builder: (_, state) {
+                  if(state is LogoutLoading){
+                    return LoadingIndicator();
+                  }
+                  return IconButton(
+                    onPressed: () {
+                      context.read<AuthViewModel>().logout();
+                    },
+                    icon: Icon(Icons.logout_outlined, size: 28),
+                  );
+                },
+              ),
+            ],
+          ),
           backgroundColor: Colors.transparent,
           body: Padding(
             padding: const EdgeInsets.all(32.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                SizedBox(height: 50),
-                Center(
-                  child: Text(
-                    'Chat Now',
-                    style: Theme.of(context).textTheme.bodyLarge,
-                  ),
-                ),
+                // SizedBox(height: 50),
+                // Center(
+                //   child: Text(
+                //     'Chat Now',
+                //     style: Theme.of(context).textTheme.bodyLarge,
+                //   ),
+                // ),
                 SizedBox(height: 20),
                 Expanded(
                   child: BlocBuilder<RoomsViewModel, RoomsState>(
@@ -68,7 +95,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                 crossAxisSpacing: 8,
                               ),
                           itemBuilder: (_, index) => InkWell(
-                            onTap: () => Navigator.of(context).pushNamed(ChatScreen.route,arguments: viewModel.rooms[index]),
+                            onTap: () => Navigator.of(context).pushNamed(
+                              ChatScreen.route,
+                              arguments: viewModel.rooms[index],
+                            ),
                             child: RoomItem(roomModel: viewModel.rooms[index]),
                           ),
                           itemCount: viewModel.rooms.length,

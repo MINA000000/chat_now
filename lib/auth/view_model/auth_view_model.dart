@@ -1,8 +1,6 @@
 import 'package:chat_now/auth/models/user_model.dart';
 import 'package:chat_now/auth/view_model/auth_states.dart';
 import 'package:chat_now/shared/firebase_functions.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AuthViewModel extends Cubit<AuthState> {
@@ -40,14 +38,28 @@ class AuthViewModel extends Cubit<AuthState> {
       emit(RegisterError(error.toString()));
     }
   }
-}
 
-class UserProvider with ChangeNotifier {
-  UserModel? currentUser;
+  Future<void> logout() async {
+    emit(LogoutLoading());
+    try {
+      await FirebaseFunctions.logout();
+      currentUser = null;
+      emit(LogoutSuccess());
+    } catch (error) {
+      emit(LogoutError(error.toString()));
+    }
+  }
 
-  Future<void> logOut() async {
-    await FirebaseAuth.instance.signOut();
-    currentUser = null;
-    notifyListeners();
+  Future<void> getCurrentUser() async {
+    try {
+      currentUser = await FirebaseFunctions.getCurrentUser();
+      if (currentUser != null) {
+        emit(IsLoggedIn());
+      } else {
+        emit(IsLoggedOut());
+      }
+    } catch (_) {
+      emit(IsLoggedOut());
+    }
   }
 }
